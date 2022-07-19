@@ -9,4 +9,6 @@ class Penduduk extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $table = 'penduduk';
+    public $timestamps = false;
 }

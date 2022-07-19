@@ -14,3 +14,16 @@
     <!-- Page level custom scripts -->
     <script src="/assets/js/demo/chart-area-demo.js"></script>
     <script src="/assets/js/demo/chart-pie-demo.js"></script>
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+
+
+$(document).ready(function () {
+    $('#example').DataTable({
+        order: [[3, 'desc']],
+    });
+});
+    </script>

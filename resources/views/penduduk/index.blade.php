@@ -7,4 +7,54 @@
             class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
    
+
+
+
+@if (session()->has('success'))
+    <div class="alert alert-success col-lg-8" role="alert">
+        {{ session('success') }}
+    </div>
+
+@endif
+
+<a href="/penduduk/create" class="btn btn-primary mb-3">Tambah Data</a>
+<table id="a" class="display mb-4" style="width:100%">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Job Title</th>
+            <th>Email</th>
+            <th>Nama Lengkap</th>
+            <th>Jenis Kelamin</th>
+            <th>Alamat</th>
+            <th>PIN</th>
+            <th>Keahlian</th>
+            <th>Negara</th>
+            <th>Tanggal</th>
+        </tr>
+    </thead>
+   <tbody>
+
+    @foreach ($alls as $data)
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $data->job_title }}</td>
+        <td>{{ $data->email }}</td>
+        <td>{{ $data->name }}</td>
+        <td>{{ $data->gender }}</td>
+        <td>{{ $data->address }}</td>
+        <td>{{ $data->pin }}</td>
+        <td>{{ $data->skill }}</td>
+        <td>{{ $data->country }}</td>
+        <td>{{ $data->date }}</td>
+    </tr>
+    @endforeach
+   </tbody>
+    
+</table>
+
+<div class="d-flex justify-content-center">
+    {{ $alls->links() }}
+
+</div>
 @endsection

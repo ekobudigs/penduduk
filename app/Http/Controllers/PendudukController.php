@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penduduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PendudukController extends Controller
 {
@@ -13,7 +15,10 @@ class PendudukController extends Controller
      */
     public function index()
     {
-        return view('penduduk.index');
+        $penduduk = DB::table('penduduk')->paginate(15);
+        return view('penduduk.index', [
+            'alls' => $penduduk
+        ]);
     }
 
     /**
@@ -23,7 +28,7 @@ class PendudukController extends Controller
      */
     public function create()
     {
-        //
+        return view('penduduk.create');
     }
 
     /**
@@ -34,7 +39,31 @@ class PendudukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'job_title' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255'],
+            'name' =>  ['required', 'string', 'max:255'],
+            'gender' => ['required'],
+            'address' => ['required'],
+            'pin' => ['required'],
+            'skill' => ['required'],
+            'country' => ['required'],
+            'date' => ['required'],
+        ]);
+
+         Penduduk::create([
+            'job_title' => $request->job_title,
+            'email' => $request->email,
+            'name' =>  $request->name,
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'pin' => $request->pin,
+            'skill' => $request->skill,
+            'country' => $request->country,
+            'date' => $request->date,
+        ]);
+
+        return redirect('/penduduk')->with('success', 'New Post Has Been Added');
     }
 
     /**
