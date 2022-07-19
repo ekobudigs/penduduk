@@ -194,39 +194,43 @@
 
 
 
-                    <div class="col-xl-8 col-lg-7">
 
-                        <!-- Area Chart -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="myAreaChart"></canvas>
-                                </div>
-                                <hr>
-                                Styling for the area chart can be found in the
-                                <code>/js/demo/chart-area-demo.js</code> file.
-                            </div>
-                        </div>
+ <!-- Bar Chart -->
+ <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Umur Rata-Rata Penduduk Tiap Negara</h6>
+    </div>
+    <div class="card-body">
+        <div class="chart-bar">
+            <canvas id="myBarChart"></canvas>
+        </div>
+        <hr>
+        Styling for the bar chart can be found in the
+        <code>/js/demo/chart-bar-demo.js</code> file.
+    </div>
+</div>
 
-                        <!-- Bar Chart -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-bar">
-                                    <canvas id="myBarChart"></canvas>
-                                </div>
-                                <hr>
-                                Styling for the bar chart can be found in the
-                                <code>/js/demo/chart-bar-demo.js</code> file.
-                            </div>
-                        </div>
+<!-- Bar Chart -->
+<div class="card shadow mb-4">
+   <div class="card-header py-3">
+       <h6 class="m-0 font-weight-bold text-primary">Jumlah Kelahiran Tiap Tahunya</h6>
+   </div>
+   <div class="card-body">
+       <div class="chart-bar">
+           <canvas id="tahun"></canvas>
+       </div>
+       <hr>
+       Styling for the bar chart can be found in the
+       <code>/js/demo/chart-bar-demo.js</code> file.
+   </div>
+</div>
 
-                    </div>
+
+
+
+
+
+
 
 
                 </div>
@@ -299,13 +303,22 @@ var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: [
+        @foreach ($pend as $data)
+"{{ $data->country }}",
+@endforeach
+    ],
     datasets: [{
-      label: "Revenue",
+      label: "Jumlah Rata-Rata",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      maxBarThickness: 50,
+      data: [
+        @foreach ($pend as $data)
+{{ $data->age }},
+@endforeach
+      ],
     }],
   },
   options: {
@@ -328,21 +341,11 @@ var myBarChart = new Chart(ctx, {
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 6
+          maxTicksLimit: 1200
         },
-        maxBarThickness: 25,
+        maxBarThickness: 1250,
       }],
       yAxes: [{
-        ticks: {
-          min: 0,
-          max: 15000,
-          maxTicksLimit: 5,
-          padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
-          }
-        },
         gridLines: {
           color: "rgb(234, 236, 244)",
           zeroLineColor: "rgb(234, 236, 244)",
@@ -370,7 +373,91 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ' ' + tooltipItem.yLabel;
+        }
+      }
+    },
+  }
+});
+
+
+
+
+var tahunct = document.getElementById("tahun");
+var myBarChart = new Chart(tahunct, {
+  type: 'bar',
+  data: {
+    labels: [
+        @foreach ($tahun as $data)
+"{{ $data->tahun }}",
+@endforeach
+    ],
+    datasets: [{
+      label: "Jumlah Kelahiran :",
+      backgroundColor: "#4e73df",
+      hoverBackgroundColor: "#2e59d9",
+      borderColor: "#4e73df",
+      maxBarThickness: 50,
+      data: [
+        @foreach ($tahun as $data)
+{{ $data->jumlah }},
+@endforeach
+      ],
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 25,
+        bottom: 0
+      }
+    },
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 1200
+        },
+        maxBarThickness: 1250,
+      }],
+      yAxes: [{
+        gridLines: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }],
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      titleMarginBottom: 10,
+      titleFontColor: '#6e707e',
+      titleFontSize: 14,
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+        label: function(tooltipItem, chart) {
+          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+          return datasetLabel + ' ' + tooltipItem.yLabel;
         }
       }
     },
