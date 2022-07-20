@@ -14,8 +14,14 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="/penduduk">
+                <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/penduduk">
+                  
+                    <i class="fas fa-file-alt"></i>
                     <span>Penduduk</span></a>
             </li>
 
@@ -30,7 +36,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="/grafik-umur">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-chart-area"></i>
                     <span>Grafik</span></a>
             </li>
 
