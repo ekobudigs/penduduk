@@ -22,9 +22,9 @@
     <thead>
         <tr>
             <th>No</th>
+            <th>Nama Lengkap</th>
             <th>Job Title</th>
             <th>Email</th>
-            <th>Nama Lengkap</th>
             <th>Jenis Kelamin</th>
             <th>Alamat</th>
             <th>PIN</th>
@@ -38,9 +38,9 @@
     @foreach ($alls as $data)
     <tr>
         <td>{{ $loop->iteration }}</td>
+        <td>{{ $data->name }}</td>
         <td>{{ $data->job_title }}</td>
         <td>{{ $data->email }}</td>
-        <td>{{ $data->name }}</td>
         <td>{{ $data->gender }}</td>
         <td>{{ $data->address }}</td>
         <td>{{ $data->pin }}</td>

@@ -40,9 +40,9 @@ class PendudukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'job_title' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255'],
-            'name' =>  ['required', 'string', 'max:255'],
+            'job_title' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'max:100'],
+            'name' =>  ['required', 'string', 'max:100'],
             'gender' => ['required'],
             'address' => ['required'],
             'pin' => ['required'],
@@ -63,7 +63,7 @@ class PendudukController extends Controller
             'date' => $request->date,
         ]);
 
-        return redirect('/penduduk')->with('success', 'New Post Has Been Added');
+        return redirect('/penduduk')->with('success', 'Yeah Data Berhasil Di Tambahkan');
     }
 
     /**
@@ -72,9 +72,11 @@ class PendudukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Penduduk $penduduk)
     {
-        //
+        return view('penduduk.show', [
+            'pend' => $penduduk,
+        ]);
     }
 
     /**
@@ -83,9 +85,11 @@ class PendudukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Penduduk $penduduk)
     {
-        //
+        return view('penduduk.edit', [
+            'pend' => $penduduk
+        ]);
     }
 
     /**
@@ -95,9 +99,27 @@ class PendudukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Penduduk $penduduk)
     {
-        //
+        $rules = [
+            'job_title' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'max:100'],
+            'name' =>  ['required', 'string', 'max:100'],
+            'gender' => ['required'],
+            'address' => ['required'],
+            'pin' => ['required'],
+            'skill' => ['required'],
+            'country' => ['required'],
+            'date' => ['required'],
+        ];
+
+       
+
+        $validateData = $request->validate($rules);
+        Penduduk::where('id', $penduduk->id)
+            ->update($validateData);
+
+        return redirect('/penduduk')->with('success', 'Yeah Data Berhasil Update');
     }
 
     /**
@@ -106,8 +128,10 @@ class PendudukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Penduduk $penduduk)
     {
-        //
+        Penduduk::destroy($penduduk->id);
+
+        return redirect('/penduduk')->with('success', 'Yeah Data Berhasil Di Hapus');
     }
 }
