@@ -33,7 +33,7 @@ class GrafikController extends Controller
                     ->get(),
         ];
 
-                return view('umur', $penduduk);
+                return view('grafik.index', $penduduk);
     }
 
 

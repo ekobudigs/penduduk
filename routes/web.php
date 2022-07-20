@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('index');
 });
 
-Route::get('/umur', [GrafikController::class, 'index']);
-Route::get('/grafik-umur', [GrafikController::class, 'umur']);
+// Route::get('/umur', [GrafikController::class, 'index']);
+Route::get('/grafik-umur', [GrafikController::class, 'umur'])->name('grafik');
 Route::resource('penduduk', PendudukController::class);
