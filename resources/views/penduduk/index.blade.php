@@ -6,6 +6,19 @@
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
             class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
+
+
+
+<div class="col-md-6">
+    <form action="/penduduk">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Cari Nama Dan Pekerjaan" name="search"
+                value="{{ request('search') }}">
+            <button class="btn btn-info" type="submit">Cari</button>
+        </div>
+    </form>
+</div>
+
    
 
 
@@ -26,27 +39,33 @@
             <th>Job Title</th>
             <th>Email</th>
             <th>Jenis Kelamin</th>
-            <th>Alamat</th>
-            <th>PIN</th>
             <th>Keahlian</th>
             <th>Negara</th>
-            <th>Tanggal</th>
+            <th>Tanggal Lahir</th>
+            <th>Aksi</th>
         </tr>
     </thead>
    <tbody>
 
-    @foreach ($alls as $data)
+    @foreach ($alls as $key => $data)
     <tr>
-        <td>{{ $loop->iteration }}</td>
+        <td>{{ ($alls->currentpage()-1) * $alls->perpage() + $key + 1 }}</td>
         <td>{{ $data->name }}</td>
         <td>{{ $data->job_title }}</td>
         <td>{{ $data->email }}</td>
         <td>{{ $data->gender }}</td>
-        <td>{{ $data->address }}</td>
-        <td>{{ $data->pin }}</td>
         <td>{{ $data->skill }}</td>
         <td>{{ $data->country }}</td>
         <td>{{ $data->date }}</td>
+        <td>
+            <a href="/penduduk/{{ $data->id }}" class="badge bg-info text-bold text-white">lihat</a>
+            <a href="/penduduk/{{ $data->id }}/edit" class="badge bg-warning text-bold text-white">Edit</a>
+            <form action="/penduduk/{{ $data->id }}" method="post" class="d-inline">
+                @method('delete')
+                @csrf
+                <button class="badge bg-danger border-0 text-bold text-white" onclick="return confirm('Apakah Kamu Yakin Hapus?')">Hapus</button>
+            </form>
+        </td>
     </tr>
     @endforeach
    </tbody>

@@ -15,7 +15,7 @@ class PendudukController extends Controller
      */
     public function index()
     {
-        $penduduk = DB::table('penduduk')->paginate(15);
+        $penduduk = Penduduk::filter(request(['search']))->paginate(15)->withQueryString();
         return view('penduduk.index', [
             'alls' => $penduduk
         ]);
